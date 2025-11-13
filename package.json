@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "async-mutex": "^0.5.0",
+    "discord.js": "^14.24.2",
+    "dotenv": "^17.2.3",
+    "fs-extra": "^11.3.2",
+    "uuid": "^13.0.0"
+  },
+  "name": "lotg",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000L\u0000O\u0000T\u0000G\u0000-\u0000d\u0000i\u0000s\u0000c\u0000o\u0000r\u0000d\u0000-\u0000b\u0000o\u0000t\u0000",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewlineVoid/LOTG-discord-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NewlineVoid/LOTG-discord-bot/issues"
+  },
+  "homepage": "https://github.com/NewlineVoid/LOTG-discord-bot#readme",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "ts-node-dev": "^2.0.0"
+  }
+}

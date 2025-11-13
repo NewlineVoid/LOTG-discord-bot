@@ -1,0 +1,37 @@
+{
+  "userId": "697729838517190686",
+  "characters": [
+    {
+      "id": "c89f64cf-ae0e-440d-9d28-8c263a1d61af",
+      "ImageUrl": null,
+      "OwnerId": "697729838517190686",
+      "Name": "merlin darswall",
+      "FamilyStatus": "Middle Class",
+      "Age": 25,
+      "Sequence": null,
+      "Pathway": null,
+      "Status": "Alive",
+      "CreatedAt": "2025-11-12T14:48:22.760Z",
+      "DeathTimestamp": null,
+      "Stats": {
+        "Health": 100,
+        "Stamina": 100,
+        "Hunger": 100,
+        "Thirst": 100,
+        "Lifespan": 69,
+        "Spirituality": 11,
+        "Luck": 9,
+        "Perception": 27,
+        "Agility": 26,
+        "Strength": 24,
+        "Intellect": 19,
+        "Charisma": 21,
+        "Digestion": 0,
+        "Sanity": 100,
+        "GlobalReputation": 0
+      },
+      "Inventory": [],
+      "Events": []
+    }
+  ]
+}
