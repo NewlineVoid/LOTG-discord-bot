@@ -2,35 +2,50 @@
   "userId": "697729838517190686",
   "characters": [
     {
-      "id": "c89f64cf-ae0e-440d-9d28-8c263a1d61af",
-      "ImageUrl": null,
+      "id": "b9e946a2-21a5-4938-9d69-ef9da5a752a1",
+      "ImageUrl": "https://media.discordapp.net/attachments/1438517972275695616/1439950645934166097/y1xQrI8yVIbTWZU8G8mfNGSWKnTU4an6.jpg?ex=691c620a&is=691b108a&hm=ea77bb942908a54f415546ad9dc118ef64cfcc8c471193c1a40b2fc4cc0b3e38&=&format=png&width=1024&height=1024",
       "OwnerId": "697729838517190686",
-      "Name": "merlin darswall",
+      "Name": "Merlin Darswell",
       "FamilyStatus": "Middle Class",
-      "Age": 25,
-      "Sequence": null,
-      "Pathway": null,
+      "Age": 23,
+      "Sequence": 8,
+      "currentLocation": "Backlund",
+      "Pathway": "Thinker",
       "Status": "Alive",
-      "CreatedAt": "2025-11-12T14:48:22.760Z",
+      "Balance": {
+        "pounds": 1111999113,
+        "soli": 11,
+        "pence": 10,
+        "balanceinpence": 39731936382
+      },
+      "CreatedAt": "2025-11-17T11:34:54.419Z",
       "DeathTimestamp": null,
       "Stats": {
         "Health": 100,
         "Stamina": 100,
         "Hunger": 100,
         "Thirst": 100,
-        "Lifespan": 69,
-        "Spirituality": 11,
-        "Luck": 9,
-        "Perception": 27,
-        "Agility": 26,
-        "Strength": 24,
-        "Intellect": 19,
-        "Charisma": 21,
+        "Lifespan": 86,
+        "Spirituality": 42,
+        "Luck": 45,
+        "Perception": 47,
+        "Agility": 44,
+        "Strength": 39,
+        "Intellect": 50,
+        "Charisma": 50,
         "Digestion": 0,
         "Sanity": 100,
-        "GlobalReputation": 0
+        "GlobalReputation": -23
       },
-      "Inventory": [],
+      "SpeakToggle": false,
+      "Inventory": [
+        {
+          "symbol": "SKILL",
+          "qty": 250
+        }
+      ],
+      "Injuries": [],
+      "StatusEffects": [],
       "Events": []
     }
   ]

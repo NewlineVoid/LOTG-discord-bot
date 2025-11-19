@@ -4,6 +4,7 @@
     "discord.js": "^14.24.2",
     "dotenv": "^17.2.3",
     "fs-extra": "^11.3.2",
+    "ollama": "^0.6.2",
     "uuid": "^13.0.0"
   },
   "name": "lotg",

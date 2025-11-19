@@ -6,80 +6,48 @@ import {
     ActionRowBuilder,
     InteractionType
 } from 'discord.js';
-
 import * as Data from '../utils/data';
 import * as RNG from '../utils/rng';
 import { v4 as uuidv4 } from 'uuid';
 
 import * as currency from '../utils/currency';
-import * as pathways from '../utils/sequences';
+
 const listOfPathways = [
     "Seer", "Marauder", "Apprentice", "Spectator", "Bard", "Sailor", "Reader", "Secrets Suppliant", "Sleepless",
     "Corpse Collector", "Warrior", "Assassin", "Hunter", "Mystery Pryer", "Savant", "Monster", "Planter",
     "Apothecary", "Criminal", "Prisoner", "Lawyer", "Arbiter"
 ];
 
+
+const isDisabled = false;
+
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('createcharacter')
-        .setDescription('Creates a new character for the user'),
-
+        .setName('unsavedcreatecharacter')
+        .setDescription('Creates a new (unsaved) character for the user')
+        .addStringOption(option=>option.setName("name").setDescription("name of the character").setRequired(true)),
     async execute(interaction: any) {
-        const userId = interaction.user.id;
-        const userData = Data.getUserData(userId);
-
-        const aliveChar = userData.characters.find((c: any) => c.Status === 'Alive');
-        if (aliveChar) {
-            await interaction.reply({ content: 'You may only have one living character at a time.', ephemeral: true });
+        if (!process.env.OWNER_ID?.includes(interaction.user.id) && isDisabled) {
+            interaction.reply({ content: 'disabled' });
             return;
         }
-
-        const latestChar = userData.characters[userData.characters.length - 1];
-        if (latestChar && latestChar.Status === 'Dead') {
-            const deathTime = new Date(latestChar.DeathTimestamp);
-            const now = new Date();
-            const hoursSinceDeath = (now.getTime() - deathTime.getTime()) / (1000 * 60 * 60);
-            if (hoursSinceDeath < 24) {
-                const hoursLeft = Math.ceil(24 - hoursSinceDeath);
-                await interaction.reply({
-                    content: `You must wait **${hoursLeft} hour(s)** before creating a new character.`,
-                    ephemeral: true
-                });
-                return;
-            }
+        if (interaction.channel.id != 1439523946796945521) {
+            interaction.reply({ content: 'You may only use this inside of <#1439523946796945521>' })
+            return
         }
 
-        const modal = new ModalBuilder()
-            .setCustomId(`createcharacter-${userId}`)
-            .setTitle('Enter Character Name');
-
-        const nameInput = new TextInputBuilder()
-            .setCustomId('characterName')
-            .setLabel("Character Name")
-            .setStyle(TextInputStyle.Short)
-            .setMinLength(3)
-            .setMaxLength(30)
-            .setRequired(true);
-        const imageInput = new TextInputBuilder()
-            .setCustomId('characterImage')
-            .setLabel('Image URL (optional)')
-            .setStyle(TextInputStyle.Short)
-            .setRequired(false);
-
-        const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(nameInput);
-        const secondActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(imageInput);
-        modal.addComponents(firstActionRow);
-        modal.addComponents(secondActionRow);
-
-        await interaction.showModal(modal);
-    },
-
-    async handleModalSubmit(interaction: any) {
         const userId = interaction.user.id;
+        // let adminpathway = interaction.options.getNumber('pathway') ?? null;
+        // let adminseq = interaction.options.getNumber('sequence') ?? null;
+        // if ((adminpathway||adminseq) && userId != process.env.OWNER_ID) {
+        //     interaction.editReply("Admin only");
+        //     return
+        // }
+        
         const userData = Data.getUserData(userId);
 
-        const name = interaction.fields.getTextInputValue('characterName');
-        const imageUrl = interaction.fields.getTextInputValue('characterImage');
+        const name = interaction.options.getString('name');
+        const imageUrl = null;
 
         const familyStatus = RNG.weightedChoice([
             { item: 'Lower Class', weight: 11.9875 },
@@ -97,6 +65,7 @@ module.exports = {
             { item: 6, weight: 1 },
         ]);
         const pathway = sequence == null ? null : listOfPathways[RNG.roll(1,22) - 1];
+
         const minSeqStat: Record<number, number> = {
             10: 10,
             9: 20,
@@ -123,24 +92,7 @@ module.exports = {
             1: 325,
             0: 500
         }
-
-        let balanceInPence; // 1pound = 20 soli. 1 soli = 12 pence. 1 pound = 240 pence.
-        // switch (familyStatus) {
-        //     case 'Lower Class':
-        //         balanceInPence = RNG.roll(1000, 7500);
-        //         break;
-        //     case 'Tycoon':
-        //         balanceInPence = RNG.roll(30000, 100000);
-        //         break;
-        //     case 'Noblility':
-        //         balanceInPence = RNG.roll(5000000, 17500000);
-        //         break;
-        //     case 'Angel':
-        //         balanceInPence = RNG.roll(52500000, 725000000);
-        //         break;
-        //     default:
-        //         balanceInPence = RNG.roll(7500, 30000);
-        // }
+        let balanceInPence;
         if (familyStatus == "Lower Class") {
             balanceInPence = RNG.roll(4800, 14400);
         } else if (familyStatus == "Middle Class") {
@@ -152,9 +104,9 @@ module.exports = {
         } else if (familyStatus == "Angel") {
             balanceInPence = RNG.roll(17512500, 75012500);
         } else {
-            balanceInPence = RNG.roll(27500, 57500)
+            balanceInPence = RNG.roll(27500, 57500);
         }
-        const {pounds, soli, pence} = currency.convertFromPence(balanceInPence)
+        const {pounds, soli, pence} = currency.convertFromPence(balanceInPence);
 
         const locationContinent = RNG.weightedChoice([
             { item: 'Nothern', weight: 75 },
@@ -215,8 +167,6 @@ module.exports = {
             Events: []
         };
 
-        userData.characters.push(newCharacter);
-        Data.saveUserData(userId, userData);
 
         const statsToShow = ['Spirituality', 'Luck', 'Perception', 'Agility', 'Strength', 'Intellect', 'Charisma', 'GlobalReputation'] as const;
         type StatKey = typeof statsToShow[number];
@@ -234,5 +184,5 @@ module.exports = {
                     `**Stats:**\n${statsText}`,
             ephemeral: false
         });
-    }
+    },
 };
